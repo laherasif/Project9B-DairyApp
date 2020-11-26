@@ -11,10 +11,10 @@ export interface AuthResponse {
 }
 
 const login = (schema: any, req: Request): AuthResponse | Response => {
-  console.log("schema is in login state " , schema)
   const { username, password } = JSON.parse(req.requestBody);
   const user = schema.users.findBy({ username });
-  if (!user) {
+  console.log("schema is in login state " , user)
+  if (user) {
     return handleErrors(null, 'No user with that username exists');
   }
   if (password !== user.password) {
@@ -28,8 +28,8 @@ const login = (schema: any, req: Request): AuthResponse | Response => {
 };
 
 const signup = (schema: any, req: Request): AuthResponse | Response => {
-  console.log("schema is in login state " , schema)
   const data = JSON.parse(req.requestBody);
+  console.log("data from frontend " , data)
   const exUser = schema.users.findBy({ username: data.username });
   if (exUser) {
     return handleErrors(null, 'A user with that username already exists.');
